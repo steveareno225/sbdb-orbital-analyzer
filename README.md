@@ -11,7 +11,7 @@ Developed by **Steven M Tilley** ([@steveareno225](https://github.com/steveareno
 ## 📌 Features
 
 - 📡 Fetch millions of objects from the [SBDB API](https://ssd-api.jpl.nasa.gov/doc/sbdb_query.html)
-- 📊 Compute orbital dissimilarity (`D_SH`) metrics
+- 📊 Compute orbital similarity ( D_SH Similarity Score (Southworth-Hawkins)`) metrics
 - 🔗 Identify clusters of objects with similar orbits
 - 🖼 Generate histograms and scatter plots for orbital dynamics
 - 🧪 Filter for close-matching object pairs at multiple thresholds
