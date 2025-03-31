@@ -1,0 +1,26 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.so
+
+# Jupyter and IPython
+.ipynb_checkpoints/
+*.ipynb
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+env/
+venv/
+
+# Output data
+*.csv
+*.png
+/orbital_plots/
+/scatter_plots/
+
+# Environment/config
+.env
+*.bat
