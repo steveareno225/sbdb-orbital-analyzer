@@ -52,7 +52,7 @@ python Plot_Generator.py
 | Script | Role |
 |--------|------|
 | `sbdb_fetcher.py` | Fetches the full SBDB catalog (1.4M+ objects) with precision orbital data |
-| `D_SH_Processing.py` | Calculates D_SH dissimilarity scores and exports filtered subsets |
+| `D_SH_Processing.py` | Calculates D_SH Similarity Score (Southworth-Hawkins) similarity scores and exports filtered subsets |
 | `generate_cluster_report.py` | Groups objects into clusters based on orbital similarity |
 | `Plot_Generator.py` | Visualizes histograms and scatter plots by object type (e.g. comet vs asteroid) |
 
@@ -65,8 +65,8 @@ The scripts produce structured CSV outputs:
 | File | Description |
 |------|-------------|
 | `sbdb_query_results.csv` | Raw fetched orbital dataset |
-| `SBDB_sorted_DSH.csv` | Dataset sorted with D_SH dissimilarity values |
-| `D_SH_filtered_below_*.csv` | Subsets filtered by D_SH threshold (0.01 to 1.00) |
+| `SBDB_sorted_DSH.csv` | Dataset sorted with D_SH Similarity Score (Southworth-Hawkins) Similarity Score (Southworth-Hawkins) similarity values |
+| `D_SH_filtered_below_*.csv` | Subsets filtered by D_SH Similarity Score (Southworth-Hawkins)Similarity Score (Southworth-Hawkins) threshold (0.01 to 1.00) |
 | `Filtered_Clusters_2plus.csv` | Groupings of related small bodies (2+ linked) |
 
 Plots are saved to:
