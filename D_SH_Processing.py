@@ -18,13 +18,12 @@ df = df.dropna(subset=['a', 'e'])
 # Add rounded columns for sorting
 df['ecc_round'] = df['e'].round(2)
 df['a_round'] = df['a'].round(1)
-df['i_round'] = df['i'].round(1)
-df['peri_round'] = df['w'].round(1)
-df['node_round'] = df['om'].round(1)
+df['i_round'] = df['i'].round(-1)
+df['peri_round'] = df['w'].round(-1)
+df['node_round'] = df['om'].round(-1)
 
 # Sort dataset by rounded orbital elements
-df_sorted = df.sort_values(by=['node_round', 'peri_round', 'i_round', 'a_round', 'ecc_round']).reset_index(drop=True)
-
+df_sorted = df.sort_values(by=['node_round', 'i_round', 'peri_round', 'a_round', 'ecc_round']).reset_index(drop=True)
 # If perihelion distance is missing, calculate it
 if df_sorted['q'].isnull().all():
     df_sorted['q'] = df_sorted['a'] * (1 - df_sorted['e'])
