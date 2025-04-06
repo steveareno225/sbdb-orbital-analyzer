@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import math
 
 # Load sbdb_query_results CSV file
@@ -12,6 +13,19 @@ cols_to_convert = ['a', 'e', 'i', 'w', 'om', 'q']
 for col in cols_to_convert:
     df[col] = pd.to_numeric(df[col], errors='coerce')
 
+# rounding degrees
+
+def custom_rounding(df: pd.DataFrame, column: str, new_column: str, decimals: int = -1) -> pd.DataFrame:
+    """
+    Rounds a specified column to a given decimal place and replaces 360 with 0:
+    - 'decimals' param controls rounding precision (e.g. -1 = nearest 10)
+    - Replaces 360.0 with 0.0 (exact match only)
+    - Stores result in 'new_column'
+    """
+    rounded = df[column].round(decimals)
+    df[new_column] = np.where(rounded == 360, 0, rounded)
+    return df
+
 # Drop rows with NaNs in required calculation fields
 df = df.dropna(subset=['a', 'e'])
 
@@ -22,8 +36,12 @@ df['i_round'] = df['i'].round(-1)
 df['peri_round'] = df['w'].round(-1)
 df['node_round'] = df['om'].round(-1)
 
+df = custom_rounding(df, 'w', 'peri_round', decimals=-1)
+df = custom_rounding(df, 'om', 'node_round', decimals=-1)
+
 # Sort dataset by rounded orbital elements
 df_sorted = df.sort_values(by=['node_round', 'i_round', 'peri_round', 'a_round', 'ecc_round']).reset_index(drop=True)
+
 # If perihelion distance is missing, calculate it
 if df_sorted['q'].isnull().all():
     df_sorted['q'] = df_sorted['a'] * (1 - df_sorted['e'])
@@ -55,13 +73,15 @@ df_sorted['D_SH to Next Row'] = dsh_scores
 # Save the full sorted file with D_SH
 df_sorted.to_csv('SBDB_sorted_DSH.csv', index=False)
 
-# Extract rows below thresholds
+# Function to include both rows of each matching pair
 def get_pairs_below_threshold(df, threshold):
     indices = []
     for i in range(len(df) - 1):
-        if df.at[i, 'D_SH to Next Row'] is not None and df.at[i, 'D_SH to Next Row'] < threshold:
+        d_sh = df.at[i, 'D_SH to Next Row']
+        if pd.notna(d_sh) and d_sh < threshold:
             indices.extend([i, i+1])
     return df.loc[sorted(set(indices))]
+
 
 # Export multiple threshold files
 get_pairs_below_threshold(df_sorted, 0.01).to_csv('D_SH_filtered_below_001.csv', index=False)
